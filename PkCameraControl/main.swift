@@ -14,12 +14,14 @@ print("Hello, World!")
 let browser = ICDeviceBrowser.init()
 let myDeviceBrowserDelegate = myDeviceBrowserDelegateClass.init()
 browser.delegate = myDeviceBrowserDelegate
-let deviceSearchMask = ICDeviceTypeMask.camera
-let deviceSearchLocation = ICDeviceLocationTypeMask.local
+browser.browsedDeviceTypeMask = ICDeviceTypeMask(rawValue: ICDeviceTypeMask.camera.rawValue | ICDeviceLocationTypeMask.local.rawValue | ICDeviceLocationTypeMask.bluetooth.rawValue | ICDeviceLocationTypeMask.bonjour.rawValue | ICDeviceLocationTypeMask.remote.rawValue | ICDeviceLocationTypeMask.shared.rawValue)!
 
-browser.browsedDeviceTypeMask = ICDeviceTypeMask(rawValue: deviceSearchMask.rawValue | deviceSearchLocation.rawValue) ?? ((ICDeviceTypeMask(rawValue: 0) ?? nil)!)
+//browser.browsedDeviceTypeMask = ICDeviceTypeMask(rawValue: 0xFFFF)!
 
 browser.start()
-print(browser.isBrowsing)
-print(browser.devices!)
+while(browser.isBrowsing){
+    print("browsing cameras...")
+    print(browser.devices!)
+    sleep(3)
+}
 browser.stop()
